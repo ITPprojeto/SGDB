@@ -1,53 +1,34 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+//trabalhar com ponteiro da tabela global já que usa 1 tabela por vez?
+FILE *open(const char *name, const char *operation){
 
-FILE *open(char *name, char operation){
-
-  FILE *arq = fopen(name, "r");
+  FILE *arq = fopen(name, operation);
 
   if (arq == NULL)
   {
-    FILE *table = fopen(name, "w");
-    return table;
-  }
-  else
-  {
-    printf("A tabela já existe, selecione outra operação\n");
-
-    return NULL;
+    printf("tabela não encontrada\n");
   }
 }
 
-char create_table(char *table_name){
-  int qtd_colum = 0;
-  char option;
+// FILE close(){
+//   for (int i = 0; i < count; i++) {
+//     fclose();
+//   }
+// }
 
-  printf("Insira a quantidade de colunas:\n");
-  scanf("%d", &qtd_colum);
-  char **table = malloc(qtd_colum*sizeof(char));
-  int new_line = 0;
-  while(option != 'n'){
-    printf("Adicionar item? (s/n)\n");
-    scanf("%s", &option);
-    table = realloc(table, new_line*sizeof(char));
-    for (int i = new_line; i <= new_line; i++) {
-      table[new_line] = malloc(qtd_colum*sizeof(char));
-      for (int j = 0; j < qtd_colum; j++) {
-        if (new_line == 0) {
-          printf("Digite o nome da coluna:\n");
-        }else{
-          printf("%s:\n", table[0][j]);
-        }
-        scanf("%s", table[j][i]);
-      }
-    }
-    printf("linha inserida!\n");
-    new_line++;
-  }
-  return table;
-}
 
 int main() {
+
+  FILE *arq;
+
+  char str[100]= "teste de escrita";
+
+  arq = open("teste500.txt", "w");
+  fscanf(arq, "%s", str);
+  fprintf(arq, "%s\n", str);
+  fprintf(arq, "no início do arquivo!\n");
+  fprintf(arq, "%s\n", "teste da função open");
 
   return 0;
 }
