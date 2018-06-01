@@ -17,16 +17,17 @@ char *create_table(char *table_name){
 
   printf("Digite a quantidade de colunas:\n");
   scanf(" %d", &qtd_colum);
-  char **colunas = malloc(qtd_colum*sizeof(char));
+  char **colums = malloc(qtd_colum*sizeof(char));
 
+  colums[0] =  table_name;
 
   for (int i = 1; i <= qtd_colum; i++) {
-    colunas[i] = malloc(50*sizeof(char));
+    colums[i] = malloc(50*sizeof(char));
     printf("Digite o nome da coluna:\n");
-    scanf(" %s", colunas[i]);
+    scanf(" %s", colums[i]);
   }
 
-  return *colunas;
+  return *colums;
 }
 
 // FILE close(){
