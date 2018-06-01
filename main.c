@@ -11,32 +11,23 @@ FILE *open(const char *name, const char *operation){
   }
 }
 
-char create_table(char *table_name){
+char *create_table(char *table_name){
 
-  int count_colum = 1;
-  char *colunas = (char*) malloc(count_colum*sizeof(char)), option = 's';
+  int count_colum = 1, qtd_colum;
 
-  while(option != 'n'){
+  printf("Digite a quantidade de colunas:\n");
+  scanf(" %d", &qtd_colum);
+  char **colunas = malloc(qtd_colum*sizeof(char));
 
-    if (option == 's') {
-      //alocar colunas
-      //número do item * 50 (tamanho max string patra evittar realloc(): invalid next size)
-      colunas = realloc(colunas, count_colum*50*sizeof(char));
-      printf("Digite o nome da coluna:\n");
-      scanf(" %s", &colunas[count_colum]);
-      printf("coluna inserida!\n");
-      printf("Adicionar nova coluna? (s/n)\n");
-      scanf(" %s", &option);
-      count_colum++;
-    }else{
-      printf("Digite um valor válido!\n");
-      scanf(" %s", &option);
-    }
 
+  for (int i = 1; i <= qtd_colum; i++) {
+    colunas[i] = malloc(50*sizeof(char));
+    printf("Digite o nome da coluna:\n");
+    scanf(" %s", colunas[i]);
   }
+
   return *colunas;
 }
-
 
 // FILE close(){
 //   for (int i = 0; i < count; i++) {
@@ -49,7 +40,7 @@ char create_table(char *table_name){
 
 int main() {
 
-  create_table("tabela-teste");
+  create_table("teste");
 
   return 0;
 }
