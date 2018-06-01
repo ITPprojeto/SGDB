@@ -1,8 +1,9 @@
-main: sgbd.o
-	gcc -o sgbd sgbd.o
+CC=gcc
+CFLAGS=-I.
 
-sgbd:
-		gcc -c sgbd.c
+sgdb:	main.o sgbdfunc.o
+	$(CC)	-o	sgbd	main.o	sgbdfunc.o
 
 clean:
-	rm -rf sgbd
+	-rm	-f	sgbdfunc.o
+	-rm	-f	sgbdfunc
