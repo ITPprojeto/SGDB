@@ -49,18 +49,23 @@ void showTable(char **table)
   }
 }
 
-void insertItems(char **table)
+char *** insetiritens(int new_line, int qdt_colun, char ***table)
 {
-    //Valores inteiros a gente troca por new_line e qnt_colun no malloc - Vinicius
-    //Dentro dos 'for' tambem - Vinicius
-    int i;
-    int j;
+  int i;
+  int j;
 
-    for (i = 0; i < 1; i++)
+  table = (char***) malloc(50 * sizeof(char **));
+    
+  for (i = 0; i < new_line; i++)
+  {
+    table[i] = (char**) malloc(50 * sizeof(char*));
+    for (j = 0; j < qdt_colun; j++)
     {
-        for (j = 0; j < 1; j++ )
-        {
-            scanf(" %s", &table[i][j]);
-        }
+      printf("Pode Digitar a informação do indice [%d][%d]: \n", i, j);
+      table[i][j] = (char*) malloc(50 * sizeof(char));
+      scanf(" %s", table[i][j]);
     }
+  } 
+
+  return table;  
 }
