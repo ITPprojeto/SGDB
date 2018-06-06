@@ -29,6 +29,7 @@ char *create_table(char *table_name){
 
   printf("%d colunas inseridas em %s\n", qtd_colum, &table_name);
 
+
   return *colums;
 }
 
