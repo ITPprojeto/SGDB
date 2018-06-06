@@ -11,11 +11,9 @@ FILE *open(const char *name, const char *operation){
     printf("!!! Tabela não encontrada !!!\n");
   }
 }
-void criararq(int new_line, int qdt_colun, char ***table, int max, int space, char *nome)
+void createFile(int new_line, int qdt_colun, char ***table, int max, int space, char *nome)
 {
-  int i;
-  int j;
-  int q;
+  int i, j, q;
 
   FILE *arquivo;
 
@@ -52,11 +50,9 @@ void criararq(int new_line, int qdt_colun, char ***table, int max, int space, ch
 }
 //Vinicius
 
-void showtable(int new_line, int qdt_colun, char ***table, int max, int space)
+void showTable(int new_line, int qdt_colun, char ***table, int max, int space)
 {
- int i;
- int j;
- int q = 0;
+ int i, j, q = 0;
 
  for (i = 1; i < new_line + 2; i++)
   {
@@ -85,10 +81,9 @@ void showtable(int new_line, int qdt_colun, char ***table, int max, int space)
   }
 }
 
-char *** insetiritens(int new_line, int qdt_colun, char ***table)
+char *** insertItens(int new_line, int qdt_colun, char ***table)
 {
-  int i;
-  int j;
+  int i, j;
 
   table = (char***) malloc(50 * sizeof(char **));
 
@@ -106,10 +101,9 @@ char *** insetiritens(int new_line, int qdt_colun, char ***table)
   return table;
 }
 
-int tamanho(int new_line, int qdt_colun, char ***table, int maior)
+int maxSizeStr(int new_line, int qdt_colun, char ***table, int maior)
 {
- int i;
- int j;
+ int i, j;
 
  maior = strlen(table[1][1]);
 
@@ -129,9 +123,7 @@ int tamanho(int new_line, int qdt_colun, char ***table, int maior)
 
 void search(int new_line, int qdt_colun, char ***table)
 {
-  int i;
-  int j;
-  int tam;
+  int i, j, tam;
   char pesquisa[100];
 
   printf("Digite o Dado que deseja pesquisar:\n");
@@ -152,7 +144,7 @@ void search(int new_line, int qdt_colun, char ***table)
 }
 
 
-void mostrarcoluna(int qdt_colun, char ***table)
+void showColum(int qdt_colun, char ***table)
 {
   int k;
 
