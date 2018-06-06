@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "sgdb.h"
 
 FILE *open(const char *name, const char *operation){
@@ -11,6 +12,7 @@ FILE *open(const char *name, const char *operation){
     printf("!!! Tabela não encontrada !!!\n");
   }
 }
+
 void createFile(int new_line, int qdt_colun, char ***table, int max, int space, char *nome)
 {
   int i, j, q;
@@ -48,7 +50,6 @@ void createFile(int new_line, int qdt_colun, char ***table, int max, int space, 
   }
 
 }
-//Vinicius
 
 void showTable(int new_line, int qdt_colun, char ***table, int max, int space)
 {
@@ -101,6 +102,7 @@ char *** insertItens(int new_line, int qdt_colun, char ***table)
   return table;
 }
 
+//procura a entrada com o maior tamanho para organizar a tabaulação da tabela
 int maxSizeStr(int new_line, int qdt_colun, char ***table, int maior)
 {
  int i, j;
@@ -142,7 +144,6 @@ void search(int new_line, int qdt_colun, char ***table)
     }
   }
 }
-
 
 void showColum(int qdt_colun, char ***table)
 {
