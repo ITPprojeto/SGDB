@@ -154,3 +154,36 @@ void showColum(int qdt_colun, char ***table)
     printf("Coluna %d = %s\n", k, table[1][k]);
   }
 }
+
+void menu(){
+  int opt;
+
+  while (opt != 6)
+  {
+    printf("\n 1. Criar tabela\n 2. Pequisar na tabela\n 3. Listar itens da tabela\n 4. Deletar tabela\n 5. Deletar item tabela\n 6. Sair\n");
+
+    scanf(" %d\n", &opt);
+    switch (opt)
+    {
+      case 1:
+        printf("Criar:\n");
+      break;
+
+      case 2:
+        printf("Pesquisar:\n");
+      break;
+
+      case 3:
+        printf("Listar:\n");
+      break;
+
+      case 4:
+        printf("Pesquisar:\n");
+      break;
+
+      case 5:
+        printf("Deletar item:\n");
+      break;
+    }
+  }
+}
