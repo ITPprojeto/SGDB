@@ -11,6 +11,47 @@ FILE *open(const char *name, const char *operation){
     printf("!!! Tabela não encontrada !!!\n");
   }
 }
+void criararq(int new_line, int qdt_colun, char ***table, int max, int space, char *nome)
+{
+  int i;
+  int j;
+  int q;
+
+  FILE *arquivo;
+
+  arquivo = fopen("nome.txt", "w");
+
+  fprintf(arquivo, "%s\n", nome);
+
+  for (i = 1; i < new_line + 2; i++)
+  {
+    fprintf(arquivo, "\n");
+    for (j = 1; j < qdt_colun + 1; j++)
+    { 
+      if (strlen(table[i][j]) < max)
+      {
+        space = max - strlen(table[i][j]);
+
+        fprintf(arquivo, "%s", table[i][j]);
+
+        for (q = 0; q < space; q++)
+        {
+         fprintf(arquivo, " ");
+        }
+
+        fprintf(arquivo, "||" );
+      }
+     
+      else
+      {
+      fprintf(arquivo, "%s||", table[i][j]);
+      }
+    }
+  }
+
+  fclose(arquivo);
+}
+//Vinicius
 
 void showtable(int new_line, int qdt_colun, char ***table, int max, int space)
 {
@@ -86,3 +127,40 @@ int tamanho(int new_line, int qdt_colun, char ***table, int maior)
   
   //Essa mede o tamanho da maior string
 }
+
+void search(int new_line, int qdt_colun, char ***table)
+{
+  int i;
+  int j;
+  int tam;
+  char pesquisa[100];
+
+  printf("Digite o Dado que deseja pesquisar:\n");
+  scanf(" %s", pesquisa);
+
+  for (i = 1; i < new_line + 2; i++)
+  {
+    for (j = 1; j < qdt_colun + 1; j++)
+    {
+      tam = strncmp(pesquisa, table[i][j], strlen(pesquisa));
+
+      if(tam == 0)
+      {
+      printf("Ta na Posição [%d][%d]\n", i, j); 
+      }
+    }
+  } 
+}
+
+
+void mostrarcoluna(int qdt_colun, char ***table)
+{
+  int k;
+
+  for (k = 1; k < qdt_colun + 1; k++)
+  {
+    printf("Coluna %d = %s\n", k, table[1][k]);
+  }
+}
+
+
