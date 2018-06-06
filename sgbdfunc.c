@@ -138,7 +138,7 @@ void search(int new_line, int qdt_colun, char ***table)
   printf("Digite o Dado que deseja pesquisar:\n");
   scanf(" %s", pesquisa);
 
-  for (i = 1; i < new_line + 2; i++)
+  for (i = 2; i < new_line + 2; i++)
   {
     for (j = 1; j < qdt_colun + 1; j++)
     {
