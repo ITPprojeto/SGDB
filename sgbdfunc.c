@@ -64,3 +64,19 @@ char *** insetiritensposteriori(int new_line, int qdt_colun, char ***table, char
   } 
   return table;  
 }
+
+int transformar(int new_line, int qdt_colun, char ***table)
+{
+  int i, j;
+
+  for (i = 1; i < new_line + 1; i++)
+  {
+   for (j = 1; j < qdt_colun + 1; j++)
+   {
+    table[i][j] = realloc(table[i][j], 50 * sizeof(int));
+    *table[i][j] = atoi(table[i][j]);
+   }
+  }
+
+  return table;
+}
