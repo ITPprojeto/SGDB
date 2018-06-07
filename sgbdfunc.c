@@ -11,122 +11,70 @@ FILE *open(const char *name, const char *operation){
     printf("!!! Tabela não encontrada !!!\n");
   }
 }
-void criararq(int new_line, int qdt_colun, char ***table, int max, int space, char *nome)
+
+void escreverarq(int new_line, int qdt_colun, char *nome, int cont)
 {
-  int i;
-  int j;
-  int q;
+  FILE *arq;
 
-  FILE *arquivo;
+  arq = fopen("Teste.txt", "a+");
 
-  arquivo = fopen("nome.txt", "w");
+  fprintf(arq, " %s ", nome);
 
-  fprintf(arquivo, "%s\n", nome);
-
-  for (i = 1; i < new_line + 2; i++)
+  if (cont == qdt_colun)
   {
-    fprintf(arquivo, "\n");
-    for (j = 1; j < qdt_colun + 1; j++)
-    { 
-      if (strlen(table[i][j]) < max)
-      {
-        space = max - strlen(table[i][j]);
-
-        fprintf(arquivo, "%s", table[i][j]);
-
-        for (q = 0; q < space; q++)
-        {
-         fprintf(arquivo, " ");
-        }
-
-        fprintf(arquivo, "||" );
-      }
-     
-      else
-      {
-      fprintf(arquivo, "%s||", table[i][j]);
-      }
-    }
+    fprintf(arq, "\n");
+    cont = 0;
   }
 
-  fclose(arquivo);
-}
-//Vinicius
-
-void showtable(int new_line, int qdt_colun, char ***table, int max, int space)
-{
- int i;
- int j;
- int q = 0;
-
- for (i = 1; i < new_line + 2; i++)
-  {
-    printf("\n");
-    for (j = 1; j < qdt_colun + 1; j++)
-    { 
-      if (strlen(table[i][j]) < max)
-      {
-        space = max - strlen(table[i][j]);
-
-        printf("%s", table[i][j]);
-
-        for (q = 0; q < space; q++)
-        {
-         printf(" ");
-        }
-
-        printf("||");
-      }
-     
-      else
-      {
-      printf("%s||", table[i][j]);
-      }
-    }
-  }
+  fclose(arq);
 }
 
-char *** insetiritens(int new_line, int qdt_colun, char ***table)
+
+char *** insetiritens(int new_line, int qdt_colun, char ***table, char *nome, int cont)
 {
   int i;
   int j;
 
   table = (char***) malloc(50 * sizeof(char **));
-    
-  for (i = 1; i < new_line + 2; i++)
+      
+  for (i = 1; i < new_line + 1; i++)
   {
     table[i] = (char**) malloc(50 * sizeof(char*));
     for (j = 1; j < qdt_colun + 1; j++)
     {
-      printf("Pode Digitar a informação da indice [%d][%d]: \n", i, j);
       table[i][j] = (char*) malloc(50 * sizeof(char));
-      scanf(" %s", table[i][j]);
+      scanf(" %[^\n]%*c", table[i][j]);
+      nome = table[i][j];
+      escreverarq(new_line, qdt_colun, nome, cont);
+      cont++;
     }
   } 
 
   return table;  
 }
 
-int tamanho(int new_line, int qdt_colun, char ***table, int maior)
-{ 
- int i;
- int j;
+char *** insetiritensposteriori(int new_line, int qdt_colun, char ***table, char *nome, int cont)
+{
+  int i;
+  int j;
 
- maior = strlen(table[1][1]);
-
- for (i = 1; i < new_line + 2; i++)
+  table = (char***) malloc(50 * sizeof(char **));
+      
+  for (i = new_line; i < new_line + 1; i++)
   {
+    table[i] = (char**) malloc(50 * sizeof(char*));
     for (j = 1; j < qdt_colun + 1; j++)
     {
-     if(strlen(table[i][j]) > maior)
-
-     maior = strlen(table[i][j]);
+      table[i][j] = (char*) malloc(50 * sizeof(char));
+      scanf(" %s", table[i][j]);
+      nome = table[i][j];
+      escreverarq(new_line, qdt_colun, nome, cont);
+      cont++;
     }
   } 
-  return maior;
-  
-  //Essa mede o tamanho da maior string
+  return table;  
 }
+
 
 void search(int new_line, int qdt_colun, char ***table)
 {
@@ -162,24 +110,3 @@ void mostrarcoluna(int qdt_colun, char ***table)
     printf("Coluna %d = %s\n", k, table[1][k]);
   }
 }
-
-char *** insetiritensposteriori(int new_line, int qdt_colun, char ***table)
-{
-  int i;
-  int j;
-      
-  for (i = new_line + 1; i < new_line + 2; i++)
-  {
-    table[i] = (char**) malloc(50 * sizeof(char*));
-    for (j = 1; j < qdt_colun + 1; j++)
-    {
-      printf("Pode Digitar a informação da indice [%d][%d]: \n", i, j);
-      table[i][j] = (char*) malloc(50 * sizeof(char));
-      scanf(" %s", table[i][j]);
-      //fgets(table[i][j], 50, stdin);
-    }
-  }  
-  return table;  
-}
-
-
