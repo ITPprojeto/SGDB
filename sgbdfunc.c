@@ -163,4 +163,23 @@ void mostrarcoluna(int qdt_colun, char ***table)
   }
 }
 
+char *** insetiritensposteriori(int new_line, int qdt_colun, char ***table)
+{
+  int i;
+  int j;
+      
+  for (i = new_line + 1; i < new_line + 2; i++)
+  {
+    table[i] = (char**) malloc(50 * sizeof(char*));
+    for (j = 1; j < qdt_colun + 1; j++)
+    {
+      printf("Pode Digitar a informação da indice [%d][%d]: \n", i, j);
+      table[i][j] = (char*) malloc(50 * sizeof(char));
+      scanf(" %s", table[i][j]);
+      //fgets(table[i][j], 50, stdin);
+    }
+  }  
+  return table;  
+}
+
 
