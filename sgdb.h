@@ -1,4 +1,3 @@
-FILE  *open(const char *name, const char *operation);
-char *create_table(char *table_name);
-void showTable(char **table);
-void insertItems(char **table);
+void escreverarq(int qdt_colun, char *itemtabela);
+char *** insetiritens(int qdt_lines, int qdt_colun, char ***table);
+char *** insetiritensposteriori(int new_line, int qdt_colun, char ***table, char *nome, int cont);
