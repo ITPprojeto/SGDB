@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sgdb.h"
-int main() {
 
+int main() {
+  menu();
   return 0;
 }
