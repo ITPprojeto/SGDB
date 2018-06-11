@@ -46,15 +46,21 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
 {
   FILE *arq;
 
-  FILE *alltables;
+  FILE *allTables;
   //ARQUIVO .TABLE E .METADADO (2 arquivos diferentes)
   arq = fopen(tableName, "a+");
 
-  alltables = fopen("alltables.txt", "a+");
+  allTables = fopen("allTables.txt", "a+");
 
   fprintf(arq, " %s ", itemTable);
 
-  fprintf(alltables, "%s\n", tableName);
+  if(arq == NULL){
+    printf("Tabela não encontrada!\n");
+  }else{
+    fprintf(arq, " %s ", itemTable);
+  }
+
+  fprintf(allTables, "%s\n", tableName);
 
   /*
   if (cont == qdt_colun)
@@ -66,7 +72,7 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
 
   fclose(arq);
 
-  fclose(alltables);
+  fclose(allTables);
 }
 
 char *** insertItens()
@@ -133,26 +139,26 @@ char *** insertItensAfterFile()
 
 void showTables()
 {
-  FILE *alltables;
+  FILE *allTables;
 
   char entrada[100];
 
-  alltables = fopen("alltables.txt", "r");
+  allTables = fopen("allTables.txt", "r");
 
-  while (fscanf(alltables, " %s ", entrada) != EOF)
+  while (fscanf(allTables, " %s ", entrada) != EOF)
   {
    printf("%s\n", entrada);
   }
 
-  fclose(alltables);
+  fclose(allTables);
 }
 
-int transformTypeData(int new_line, int qdt_colun, char ***table)
+int transformTypeData(int qtd_lines, int qtd_colums, char ***table)
 {
 
-  for (int i = 1; i < new_line + 1; i++)
+  for (int i = 1; i < qtd_lines + 1; i++)
   {
-   for (int j = 1; j < qdt_colun + 1; j++)
+   for (int j = 1; j < qtd_colums + 1; j++)
    {
     table[i][j] = realloc(table[i][j], 50 * sizeof(int));
     *table[i][j] = atoi(table[i][j]);
