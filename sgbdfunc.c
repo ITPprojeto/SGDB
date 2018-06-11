@@ -6,7 +6,7 @@
 void menu(){
 
     int option;
-    printf("selecione uma opção:\n 1.Criar Tabela\n 2.Listar tabela\n" );
+    printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n" );
 
     while (option != 6) {
       scanf("%d", &option);
@@ -15,10 +15,11 @@ void menu(){
       {
         case 1:
           insertItens();
-          //writeFile();
+          printf ("\n");
         break;
 
         case 2 :
+          insertItensAfterFile();
           printf ("\n");
         break;
 
@@ -40,13 +41,13 @@ void menu(){
     }
 }
 
-void writeFile(int qdt_colun, char *itemtabela)
+void writeFile(char *tableName, int qdt_colun, char *itemTable)
 {
   FILE *arq;
+  //ARQUIVO .TABLE E .METADADO (2 arquivos diferentes)
+  arq = fopen(tableName, "a+");
 
-  arq = fopen("Teste.txt", "a+");
-
-  fprintf(arq, " %s ", itemtabela);
+  fprintf(arq, " %s ", itemTable);
 
   /*
   if (cont == qdt_colun)
@@ -63,13 +64,18 @@ void writeFile(int qdt_colun, char *itemtabela)
 char *** insertItens()
 {
   int qtd_lines, qtd_colums;
-  char ***table = (char***) malloc(50 * sizeof(char **));
+  char ***table, tableName[100];
 
-  printf("Digite a quantidade de linhas:\n");
-  scanf("%d", &qtd_lines);
+  table = (char***) malloc(50 * sizeof(char **));
+
+  printf("Digite o nome da tabela:\n");
+  scanf("%s", tableName);
+
   printf("Digite a quantidade de colunas:\n");
   scanf("%d", &qtd_colums);
 
+  printf("Digite a quantidade de itens:\n");
+  scanf("%d", &qtd_lines);
 
   for (int i = 1; i < qtd_lines + 1; i++)
   {
@@ -78,34 +84,46 @@ char *** insertItens()
     {
       table[i][j] = (char*) malloc(50 * sizeof(char));
       scanf(" %[^\n]%*c", table[i][j]);
-      writeFile(qtd_lines, table[i][j]);
+      writeFile(tableName, qtd_lines, table[i][j]);
     }
   }
 
   return table;
 }
 
-char *** insertItensAfterFile(int new_line, int qdt_colun, char ***table, char *nome, int cont)
+char *** insertItensAfterFile()
 {
+
+  char tableName[100], ***table;
+  int qtd_lines, qtd_colums, count = 0;
+
+  printf("Digite o nome da tabela:\n");
+  scanf("%s", tableName);
+
+  //!!! temporário, será usado um metadado do arquivo para definir a quantidade d ecolunas
+  printf("Digite a quantidade de colunas:\n");
+  scanf("%d", &qtd_colums);
+
+  printf("Digite a quantidade de itens:\n");
+  scanf("%d", &qtd_lines);
 
   table = (char***) malloc(50 * sizeof(char **));
 
-  for (int i = new_line; i < new_line + 1; i++)
+  for (int i = qtd_lines; i < qtd_lines + 1; i++)
   {
     table[i] = (char**) malloc(50 * sizeof(char*));
-    for (int j = 1; j < qdt_colun + 1; j++)
+    for (int j = 1; j < qtd_colums + 1; j++)
     {
       table[i][j] = (char*) malloc(50 * sizeof(char));
       scanf(" %s", table[i][j]);
-      nome = table[i][j];
-      writeFile(qdt_colun, table[i][j]);
-      cont++;
+      writeFile(tableName, qtd_colums, table[i][j]);
+      count++;
     }
   }
   return table;
 }
 
-int transform(int new_line, int qdt_colun, char ***table)
+int transformTypeData(int new_line, int qdt_colun, char ***table)
 {
 
   for (int i = 1; i < new_line + 1; i++)
