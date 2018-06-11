@@ -24,6 +24,7 @@ void menu(){
         break;
 
         case 3 :
+          showTables();
           printf ("\n");
         break;
 
@@ -44,10 +45,16 @@ void menu(){
 void writeFile(char *tableName, int qdt_colun, char *itemTable)
 {
   FILE *arq;
+
+  FILE *alltables;
   //ARQUIVO .TABLE E .METADADO (2 arquivos diferentes)
   arq = fopen(tableName, "a+");
 
+  alltables = fopen("alltables.txt", "a+");
+
   fprintf(arq, " %s ", itemTable);
+
+  fprintf(alltables, "%s\n", tableName);
 
   /*
   if (cont == qdt_colun)
@@ -58,8 +65,9 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
   */
 
   fclose(arq);
-}
 
+  fclose(alltables);
+}
 
 char *** insertItens()
 {
@@ -121,6 +129,22 @@ char *** insertItensAfterFile()
     }
   }
   return table;
+}
+
+void showTables()
+{
+  FILE *alltables;
+
+  char entrada[100];
+
+  alltables = fopen("alltables.txt", "r");
+
+  while (fscanf(alltables, " %s ", entrada) != EOF)
+  {
+   printf("%s\n", entrada);
+  }
+
+  fclose(alltables);
 }
 
 int transformTypeData(int new_line, int qdt_colun, char ***table)
