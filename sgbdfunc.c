@@ -167,3 +167,20 @@ int transformTypeData(int qtd_lines, int qtd_colums, char ***table)
 
   //return *table;
 }
+
+void deleteTable(){
+  int status;
+  char tableName[];
+
+  printf("Digite o nome da tabela:\n");
+  scanf("%s", tableName);
+
+  status = remove(tableName);
+
+  if (status == 0) {
+    printf("Tabela removida com sucesso!\n");
+  }else{
+    printf("Erro ao deletar a tabela.\n");
+  }
+
+}
