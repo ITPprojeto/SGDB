@@ -33,6 +33,7 @@ void menu(){
         break;
 
         case 5 :
+          search();
           printf ("\n");
         break;
 
@@ -53,12 +54,14 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
   allTables = fopen("allTables.txt", "a+");
 
   fprintf(arq, " %s ", itemTable);
-
+  
+  /*
   if(arq == NULL){
     printf("Tabela não encontrada!\n");
   }else{
     fprintf(arq, " %s ", itemTable);
   }
+  */
 
   fprintf(allTables, "%s\n", tableName);
 
@@ -123,13 +126,13 @@ char *** insertItensAfterFile()
 
   table = (char***) malloc(50 * sizeof(char **));
 
-  for (int i = qtd_lines; i < qtd_lines + 1; i++)
+  for (int i = 1; i < qtd_lines + 1; i++)
   {
     table[i] = (char**) malloc(50 * sizeof(char*));
     for (int j = 1; j < qtd_colums + 1; j++)
     {
       table[i][j] = (char*) malloc(50 * sizeof(char));
-      scanf(" %s", table[i][j]);
+      scanf(" %[^\n]%*c", table[i][j]);
       writeFile(tableName, qtd_colums, table[i][j]);
       count++;
     }
@@ -170,7 +173,7 @@ int transformTypeData(int qtd_lines, int qtd_colums, char ***table)
 
 void deleteTable(){
   int status;
-  char tableName[];
+  char tableName[100];
 
   printf("Digite o nome da tabela:\n");
   scanf("%s", tableName);
@@ -182,5 +185,29 @@ void deleteTable(){
   }else{
     printf("Erro ao deletar a tabela.\n");
   }
+}
 
+void search()
+{
+  FILE *arq;
+
+  char search[100], nameFile[100], string[100];
+
+  printf("Digite o nome da tabela que deseja pesquisar\n");
+  scanf(" %s", nameFile);
+  
+  arq = fopen(nameFile, "r");
+
+  printf("Digite o Dado que deseja pesquisar:\n");
+  scanf(" %s", search);
+
+  while( fscanf(arq, " %s ", string) != EOF)
+  {
+    if (string == search)
+    {
+      printf("%s\n", search);
+    }
+  }
+
+  fclose(arq);
 }
