@@ -6,7 +6,7 @@
 void menu(){
 
     int option;
-    printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n" );
+    printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
 
     while (option != 6) {
       scanf("%d", &option);
@@ -33,7 +33,11 @@ void menu(){
         break;
 
         case 5 :
+
           search();
+
+          deleteTable();
+
           printf ("\n");
         break;
 
@@ -176,7 +180,7 @@ void deleteTable(){
   char tableName[100];
 
   printf("Digite o nome da tabela:\n");
-  scanf("%s", tableName);
+  scanf(" %s", tableName);
 
   status = remove(tableName);
 
