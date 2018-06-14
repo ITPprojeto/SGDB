@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "sgdb.h"
 
 
@@ -29,12 +30,12 @@ void menu(){
         break;
 
         case 4 :
+          search();
           printf ("\n");
         break;
 
         case 5 :
 
-          search();
 
           deleteTable();
 
@@ -205,13 +206,14 @@ void search()
   printf("Digite o Dado que deseja pesquisar:\n");
   scanf(" %s", search);
 
-  while( fscanf(arq, " %s ", string) != EOF)
+  while( fscanf(arq, "%s", string) != EOF)
   {
-    if (string == search)
-    {
-      printf("%s\n", search);
-    }
+   if( strcmp(search, string) == 0)
+   {
+    printf("Foi encontrado : %s\n", string);
+   }
   }
-
+  
   fclose(arq);
+
 }
