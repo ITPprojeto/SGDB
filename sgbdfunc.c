@@ -208,7 +208,7 @@ void search()
 
   while( fscanf(arq, "%s", string) != EOF)
   {
-   if( strcmp(search, string) == 0)
+   if( strncmp(search, string, strlen(search)) == 0)
    {
     printf("Foi encontrado : %s\n", string);
    }
