@@ -169,6 +169,7 @@ int transformTypeData(int qtd_lines, int qtd_colums, char ***table)
   //return *table;
 }
 
+
 void deleteTable(){
   int status;
   char tableName[100];
@@ -185,3 +186,7 @@ void deleteTable(){
   }
 
 }
+
+// void deleteItemTable(char tableName){
+//   writeFile(tableName);
+// }
