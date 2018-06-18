@@ -7,3 +7,4 @@ void showTables();
 void deleteTable();
 void deleteItemTable(char tableName);
 void search();
+char fileToMatrix(char tableName);

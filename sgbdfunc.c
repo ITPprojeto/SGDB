@@ -63,7 +63,7 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
   //
   // fprintf(arq, " %c ;", itemTable);
   //
-  // fprintf(arq, " %s ;", itemTable);
+  fprintf(arq, " %s ;", itemTable);
   //
   // fprintf(arq, " %f ;", itemTable);
 
@@ -117,7 +117,11 @@ char *** insertItens()
     for (int j = 1; j < qtd_colums + 1; j++)
     {
       table[i][j] = (char*) malloc(50 * sizeof(char));
-      printf("Digite o nome da coluna: [%d] e o seu tipo: ", j);
+      if (i == 00) {
+        printf("Digite a chave primária da tabela: [%d] e o seu tipo: ", j);
+      }else{
+        printf("Digite o nome da coluna: [%d] e o seu tipo: ", j);
+      }
       scanf(" %[^\n]%*c", table[i][j]);
       writeFile(tableName, qtd_lines, table[i][j]);
     }
@@ -252,4 +256,26 @@ void search()
 
   fclose(arq);
   printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
+}
+
+char fileToMatrix(char tableName){
+  //converter taberla pra matriz
+  //receber
+  //rescrever arquivo pulando a linha
+  //receber quantidade de linhas e colunas
+  //primeir linha do arquivo linhaxxoluna
+  for (size_t i = 0; i < count; i++) {
+    for (size_t i = 0; i < count; i++) {
+      /* code */
+    }
+  }
+}
+
+
+int checkPrimarykey(){
+  if(exist){
+    return 0;
+  }else{
+    return 1;
+  }
 }
