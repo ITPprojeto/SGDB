@@ -52,11 +52,20 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
 
   FILE *allTables;
   //ARQUIVO .TABLE E .METADADO (2 arquivos diferentes)
+
   arq = fopen(tableName, "a+");
 
   allTables = fopen("allTables.txt", "a+");
 
-  fprintf(arq, " %s ", itemTable);
+  // fprintf(arq, " %lf ;", itemTable);
+  //
+  // fprintf(arq, " %d ;", itemTable);
+  //
+  // fprintf(arq, " %c ;", itemTable);
+  //
+  // fprintf(arq, " %s ;", itemTable);
+  //
+  // fprintf(arq, " %f ;", itemTable);
 
   /*
   if(arq == NULL){
@@ -108,12 +117,11 @@ char *** insertItens()
     for (int j = 1; j < qtd_colums + 1; j++)
     {
       table[i][j] = (char*) malloc(50 * sizeof(char));
-      printf("Digite o nome da coluna: [%d]: ", j);
+      printf("Digite o nome da coluna: [%d] e o seu tipo: ", j);
       scanf(" %[^\n]%*c", table[i][j]);
       writeFile(tableName, qtd_lines, table[i][j]);
     }
   }
-
 
   for (int i = 1; i < qtd_lines + 1; i++)
   {
