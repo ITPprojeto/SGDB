@@ -51,39 +51,14 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
   FILE *arq;
 
   FILE *allTables;
-  //ARQUIVO .TABLE E .METADADO (2 arquivos diferentes)
 
   arq = fopen(tableName, "a+");
 
   allTables = fopen("allTables.txt", "a+");
-  
-  fprintf(arq, " %lf ;", itemTable);
-
-  fprintf(arq, " %d ;", itemTable);
-
-  fprintf(arq, " %c ;", itemTable);
 
   fprintf(arq, " %s ;", itemTable);
-
-  fprintf(arq, " %f ;", itemTable);
   
-  /*
-  if(arq == NULL){
-    printf("Tabela não encontrada!\n");
-  }else{
-    fprintf(arq, " %s ", itemTable);
-  }
-  */
-
   fprintf(allTables, "%s\n", tableName);
-
-  /*
-  if (cont == qdt_colun)
-  {
-    fprintf(arq, "\n");
-    cont = 0;
-  }
-  */
 
   fclose(arq);
 
@@ -92,7 +67,7 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
 
 char *** insertItens()
 {
-  int qtd_lines, qtd_colums;
+  int qtd_lines, qtd_colums, n, dataType[n];
   char ***table, tableName[100];
   FILE *arq;
   
@@ -107,6 +82,7 @@ char *** insertItens()
   scanf("%d", &qtd_colums);
   fprintf(arq, "%d\n", qtd_colums);
   fclose(arq);
+  n = qtd_colums;
 
   printf("Digite a quantidade de entradas de dados:\n");
   scanf("%d", &qtd_lines);
@@ -117,8 +93,10 @@ char *** insertItens()
     for (int j = 1; j < qtd_colums + 1; j++)
     {
       table[i][j] = (char*) malloc(50 * sizeof(char));
-      printf("Digite o nome da coluna: [%d] e o seu tipo: ", j);
+      printf("Digite o nome da coluna: [%d] ", j);
       scanf(" %[^\n]%*c", table[i][j]);
+      printf("Digite o tipo de variavel: ");
+      scanf("%d", &dataType[j]); //Esse seria o array das variaveis
       writeFile(tableName, qtd_lines, table[i][j]);
     }
   }
@@ -131,7 +109,27 @@ char *** insertItens()
       table[i][j] = (char*) malloc(50 * sizeof(char));
       printf("Digite a informação da coluna [%s]: ", table[0][j]);
       scanf(" %[^\n]%*c", table[i][j]);
+      
+      if (dataType[j] == 1)
+      {
+      arq = fopen(tableName, "a+");
+      fprintf(arq, "%d ;", atoi(table[i][j]));
+      //Essa parque é a que deveria ta em writefile mas não sei parametro direito ai tenho medo de cagar
+      fclose(arq);
+      }
+
+      /*
+      if (dataType[j] == 2)
+      {
+      table[i][j] = atof(table[i][j]);
+      fprintf(arq, "%f ;", table[i][j]);
+      }
+      */
+
+      if(dataType[j] == 5)
+      {
       writeFile(tableName, qtd_lines, table[i][j]);
+      }
     }
   }
 
