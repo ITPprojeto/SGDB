@@ -30,8 +30,8 @@ void menu(){
         break;
 
         case 4 :
-          //search();
-          mostrartabela();
+          search();
+          //mostrartabela();
           printf ("\n");
         break;
 
@@ -48,18 +48,6 @@ void menu(){
           printf ("Valor inválido!\n");
       }
     }
-}
-
-void writecolum(char *itemtable)
-{
-
- FILE *arq;
-
- arq = fopen(itemtable, "a+");
-
- fprintf(arq, "%s\n", itemtable);
-
- fclose(arq);
 }
 
 void writeFile(char *tableName, int qdt_colun, char *itemTable)
@@ -136,7 +124,6 @@ char *** insertItens()
       table[i][j] = (char*) malloc(50 * sizeof(char));
       printf("Digite o nome da coluna: [%d] ", j);
       scanf(" %[^\n]%*c", table[i][j]);
-      writecolum(table[i][j]);
       printf("Digite o tipo de variavel: ");
       scanf("%d", &dataType[j]); //Esse seria o array das variaveis
       writeFile(tableName, qtd_lines, table[i][j]);
@@ -249,28 +236,51 @@ void deleteTable(){
 
 void search()
 {
+  int qtd_lines, qtd_columns, searchitem, searchColum;
+  char content[100], ***table, fileContent[256];
   FILE *arq;
 
-  char search[100], nameFile[100], string[100];
+  arq = fopen("copa", "r");
+  fscanf(arq, "%d %d", &qtd_columns, &qtd_lines);
 
-  printf("Digite o nome da tabela que deseja pesquisar\n");
-  scanf(" %s", nameFile);
-  
-  arq = fopen(nameFile, "r");
+  table = (char***) malloc(50 * sizeof(char **));
 
-  printf("Digite o Dado que deseja pesquisar:\n");
-  scanf(" %s", search);
-
-  while( fscanf(arq, "%s", string) != EOF)
+  for(int i = 0; i < qtd_lines; i++ )
   {
-   if( strncmp(search, string, strlen(search)) == 0)
-   {
-    printf("Foi encontrado : %s\n", string);
-   }
+    table[i] = (char**) malloc(50 * sizeof(char*));
+    for (int j = 0; j < qtd_columns; j++) 
+    {
+      fscanf(arq, "%s", fileContent);
+      table[i][j] = (char*) malloc(50 * sizeof(char));
+      table[i][j] = fileContent;
+    }
   }
-  
-  fclose(arq);
-  printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
+
+  for(int i = 0; i < qtd_lines; i++ )
+  {
+    for (int j = 0; j < 1; j++) 
+    {
+      printf("%d %s\n", i, table[i][j]);
+    }
+  }
+
+  printf("Digite a coluna que deseja pesquisar: ");
+  scanf("%d", &searchColum);
+
+  printf("Digite o dado que deseja pesquisar:\n");
+  scanf("%d", &searchitem);
+
+  for(int i = 0; i < qtd_lines; i++ ){
+    table[i] = (char**) malloc(50 * sizeof(char*));
+    for (int j = searchColum; j < searchColum + 1; j++) 
+    {
+      if (atoi(table[i][j]) == searchitem)
+      {
+      printf("%d\n",atoi(table[i][j]));
+      }
+    }
+  }
+ fclose(arq);
 }
 
 void mostrartabela()
