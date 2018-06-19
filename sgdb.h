@@ -8,3 +8,4 @@ char *** insertItensAfterFile();
 void showTables();
 void deleteTable();
 void search();
+void mostrartabela();

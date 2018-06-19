@@ -30,7 +30,8 @@ void menu(){
         break;
 
         case 4 :
-          search();
+          //search();
+          mostrartabela();
           printf ("\n");
         break;
 
@@ -39,6 +40,9 @@ void menu(){
 
           printf ("\n");
         break;
+
+        case 6 :
+          printf ("\n");
 
         default:
           printf ("Valor inválido!\n");
@@ -56,7 +60,7 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
 
   allTables = fopen("allTables.txt", "a+");
 
-  fprintf(arq, " %s ;", itemTable);
+  fprintf(arq, " %s ", itemTable);
   
   fprintf(allTables, "%s\n", tableName);
 
@@ -71,7 +75,7 @@ void writeFileint(char *tableName, char *itemTable)
 
   arq = fopen(tableName, "a+");
 
-  fprintf(arq, "%d ;", atoi(itemTable));
+  fprintf(arq, "%d ", atoi(itemTable));
 
   fclose(arq);
 }
@@ -82,7 +86,7 @@ void writeFiledouble(char *tableName, char *itemTable)
 
   arq = fopen(tableName, "a+");
 
-  fprintf(arq, "%0.2f ;", atof(itemTable));
+  fprintf(arq, "%0.2f ", atof(itemTable));
 
   fclose(arq);
 }
@@ -93,7 +97,7 @@ void writeFilefloat(char *tableName, char *itemTable)
 
   arq = fopen(tableName, "a+");
 
-  fprintf(arq, "%f ;", atof(itemTable));
+  fprintf(arq, "%f ", atof(itemTable));
 
   fclose(arq);
 }
@@ -277,4 +281,73 @@ void search()
   
   fclose(arq);
   printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
+}
+
+void mostrartabela()
+{
+  char tableName[100], string[100];
+  int maxSizeint, pular, cont = 0, space, q;
+  FILE *arq;
+
+  printf("Digite o nome da tabela que deseja ver: ");
+  scanf(" %s", tableName);
+
+  arq = fopen(tableName, "r");
+
+  maxSizeint = 0;
+
+  while( fscanf(arq, "%s", string) != EOF)
+  {
+    if (strlen(string) > maxSizeint)
+    {
+      maxSizeint = strlen(string);
+    }
+  }
+
+  fclose(arq);
+
+  fopen(tableName, "r");
+
+  fscanf(arq, "%d", &pular);
+
+  while( fscanf(arq, "%s", string) != EOF)
+  {
+    if (strlen(string) > maxSizeint)
+    {
+      maxSizeint = strlen(string);
+    }
+
+    cont++;
+
+    if (strlen(string) < maxSizeint)
+    {
+      space = maxSizeint - strlen(string);
+
+      printf("%s", string);
+
+      for (q = 0; q < space; q++)
+      {
+       printf(" ");
+      }
+      printf("||");
+
+      if (cont == pular)
+      {
+      printf("\n");
+      cont = 0;
+      }
+    }
+     
+    else
+    {
+      printf("%s||", string);
+       
+      if (cont == pular)
+      {
+        printf("\n");
+        cont = 0;
+      }   
+    }  
+  }
+  fclose(arq);
 }
