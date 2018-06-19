@@ -50,23 +50,27 @@ void menu(){
     }
 }
 
-void writeFile(char *tableName, int qdt_colun, char *itemTable)
+void writecolum(char *itemtable)
 {
-  FILE *arq;
 
-  FILE *allTables;
+ FILE *arq;
+
+ arq = fopen(itemtable, "a+");
+
+ fprintf(arq, "%s\n", itemtable);
+
+ fclose(arq);
+}
+
+void writeFile(char *tableName, int qdt_colun, char *itemTable)
+{ 
+  FILE *arq;
 
   arq = fopen(tableName, "a+");
 
-  allTables = fopen("allTables.txt", "a+");
-
   fprintf(arq, " %s ", itemTable);
-  
-  fprintf(allTables, "%s\n", tableName);
 
   fclose(arq);
-
-  fclose(allTables);
 }
 
 void writeFileint(char *tableName, char *itemTable)
@@ -132,6 +136,7 @@ char *** insertItens()
       table[i][j] = (char*) malloc(50 * sizeof(char));
       printf("Digite o nome da coluna: [%d] ", j);
       scanf(" %[^\n]%*c", table[i][j]);
+      writecolum(table[i][j]);
       printf("Digite o tipo de variavel: ");
       scanf("%d", &dataType[j]); //Esse seria o array das variaveis
       writeFile(tableName, qtd_lines, table[i][j]);
@@ -223,21 +228,6 @@ void showTables()
 
   printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
   fclose(allTables);
-}
-
-int transformTypeData(int qtd_lines, int qtd_colums, char ***table)
-{
-
-  for (int i = 1; i < qtd_lines + 1; i++)
-  {
-   for (int j = 1; j < qtd_colums + 1; j++)
-   {
-    table[i][j] = realloc(table[i][j], 50 * sizeof(int));
-    *table[i][j] = atoi(table[i][j]);
-   }
-  }
-
-  //return *table;
 }
 
 void deleteTable(){

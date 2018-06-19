@@ -9,3 +9,4 @@ void showTables();
 void deleteTable();
 void search();
 void mostrartabela();
+void writecolum(char *itemtable);
