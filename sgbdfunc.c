@@ -20,7 +20,7 @@ void menu(){
         break;
 
         case 2 :
-          insertItensAfterFile();
+          printf("teste\n");
           printf ("\n");
         break;
 
@@ -40,143 +40,86 @@ void menu(){
           printf ("\n");
         break;
 
+        case 6:
+          fileToMatrix("alunos");
+        break;
+
         default:
           printf ("Valor inválido!\n");
       }
     }
 }
 
-void writeFile(char *tableName, int qdt_colun, char *itemTable)
+void writeFile(char *tableName, char *itemTable)
 {
-  FILE *arq;
+  char path[255];
+  FILE *arq, *allTables;
 
-  FILE *allTables;
-  //ARQUIVO .TABLE E .METADADO (2 arquivos diferentes)
+  strcpy(path, "tables/");
+  strcat(path, tableName);
 
-  arq = fopen(tableName, "a+");
+  arq = fopen(path, "a+");
 
   allTables = fopen("allTables.txt", "a+");
 
-  // fprintf(arq, " %lf ;", itemTable);
-  //
-  // fprintf(arq, " %d ;", itemTable);
-  //
-  // fprintf(arq, " %c ;", itemTable);
-  //
-  fprintf(arq, " %s ;", itemTable);
-  //
-  // fprintf(arq, " %f ;", itemTable);
-
-  /*
-  if(arq == NULL){
-    printf("Tabela não encontrada!\n");
-  }else{
-    fprintf(arq, " %s ", itemTable);
-  }
-  */
+  fprintf(arq, " %s ", itemTable);
 
   fprintf(allTables, "%s\n", tableName);
 
-  /*
-  if (cont == qdt_colun)
-  {
-    fprintf(arq, "\n");
-    cont = 0;
-  }
-  */
-
   fclose(arq);
-
   fclose(allTables);
 }
 
-char *** insertItens()
+void  insertItens()
 {
   int qtd_lines, qtd_colums;
-  char ***table, tableName[100];
-  FILE *arq;
+  char ***table, tableName[100], qtdLinesStr[100], qtdColumnsStr[100];
 
   table = (char***) malloc(50 * sizeof(char **));
 
   printf("Digite o nome da tabela:\n");
   scanf("%s", tableName);
 
-  arq = fopen(tableName, "w");
+  //if create pra evitar duas funções de inserir boolean e identificar exitencia da tabela
+  printf("Digite a quantidade de colunas e a quantidade de itens:\n");
+  scanf("%s %s", qtdLinesStr, qtdColumnsStr);
 
-  printf("Digite a quantidade de colunas:\n");
-  scanf("%d", &qtd_colums);
-  fprintf(arq, "%d\n", qtd_colums);
-  fclose(arq);
+  writeFile(tableName, qtdLinesStr);
+  writeFile(tableName, qtdColumnsStr);
+  writeFile(tableName, "\r\n");
 
-  printf("Digite a quantidade de entradas de dados:\n");
-  scanf("%d", &qtd_lines);
+  qtd_lines = atoi(qtdLinesStr);
+  qtd_colums = atoi(qtdColumnsStr);
 
-  for (int i = 0; i < 1; i++)
+  for (int i = 0; i < qtd_lines; i++)
   {
     table[i] = (char**) malloc(50 * sizeof(char*));
-    for (int j = 1; j < qtd_colums + 1; j++)
+    for (int j = 0; j < qtd_colums; j++)
     {
       table[i][j] = (char*) malloc(50 * sizeof(char));
-      if (i == 00) {
-        printf("Digite a chave primária da tabela: [%d] e o seu tipo: ", j);
-      }else{
-        printf("Digite o nome da coluna: [%d] e o seu tipo: ", j);
+        //fprintf(arq, "%d %d\n", qtd_colums, qtd_lines);
+        //writeFile(tableName, qtd_lines, table[i][j]);
+        if (i == 0) {
+          printf("Digite o nome da coluna:\n");
+        }else{
+          printf("Digite um item da tabela:\n");
+        }
+
+      scanf(" %s", table[i][j]);
+      //USAR FGETS NOMES COMPOSTOS (PROBLEMA /N)
+      //fgets(table[i][j], 100, stdin);
+
+      if (j == qtd_colums - 1)
+      {
+        strcat(table[i][j], "\r\n");
       }
-      scanf(" %[^\n]%*c", table[i][j]);
-      writeFile(tableName, qtd_lines, table[i][j]);
+
+      writeFile(tableName, table[i][j]);
     }
   }
-
-  for (int i = 1; i < qtd_lines + 1; i++)
-  {
-    table[i] = (char**) malloc(50 * sizeof(char*));
-    for (int j = 1; j < qtd_colums + 1; j++)
-    {
-      table[i][j] = (char*) malloc(50 * sizeof(char));
-      printf("Digite a informação da coluna [%s]: ", table[0][j]);
-      scanf(" %[^\n]%*c", table[i][j]);
-      writeFile(tableName, qtd_lines, table[i][j]);
-    }
-  }
-
-  printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
-  return table;
+  menu();
 }
 
-char *** insertItensAfterFile()
-{
-
-  char tableName[100], ***table;
-  int qtd_lines, qtd_colums, count = 0;
-  FILE *arq;
-
-  printf("Digite o nome da tabela:\n");
-  scanf("%s", tableName);
-  arq = fopen(tableName, "r");
-
-  fscanf(arq, "%d", &qtd_colums);
-  fclose(arq);
-
-  printf("Digite a quantidade de itens:\n");
-  scanf("%d", &qtd_lines);
-
-  table = (char***) malloc(50 * sizeof(char **));
-
-  for (int i = 1; i < qtd_lines + 1; i++)
-  {
-    table[i] = (char**) malloc(50 * sizeof(char*));
-    for (int j = 1; j < qtd_colums + 1; j++)
-    {
-      table[i][j] = (char*) malloc(50 * sizeof(char));
-      //printf("Digite a informação da coluna [%s]: ", table[0][j]);
-      scanf(" %[^\n]%*c", table[i][j]);
-      writeFile(tableName, qtd_colums, table[i][j]);
-      count++;
-    }
-  }
-  printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
-  return table;
-}
 
 void showTables()
 {
@@ -191,7 +134,6 @@ void showTables()
    printf("%s\n", entrada);
   }
 
-  printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
   fclose(allTables);
 }
 
@@ -258,24 +200,56 @@ void search()
   printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
 }
 
-char fileToMatrix(char tableName){
-  //converter taberla pra matriz
-  //receber
-  //rescrever arquivo pulando a linha
-  //receber quantidade de linhas e colunas
-  //primeir linha do arquivo linhaxxoluna
-  for (size_t i = 0; i < count; i++) {
-    for (size_t i = 0; i < count; i++) {
-      /* code */
+void deleteItem(){
+  printf("DIgite o nome da tabela\n");
+  printf("Digite a PK do item que deseja excluir\n");
+  for (size_t i = 0; i < numcol; i++) {
+    if(table[i][0] == deleteItem)
+    {
+      indice = i;
+    }
+  }
+
+  for (size_t i = indice; i < qtd_line; i++) {
+    for (size_t j = 0; j < count; j++) {
+      table[i][j] = table[i+1][j+1];
     }
   }
 }
 
+char ***fileToMatrix(char *tableName){
+  int qtd_lines, qtd_columns;
+  char content[100], ***table, fileContent[256];
+  FILE *arq;
+
+  arq = fopen("tables/alunos", "r");
+  fscanf(arq, "%d %d", &qtd_columns, &qtd_lines);
+
+  table = (char***) malloc(50 * sizeof(char **));
+
+  // while (fscanf(arq, "%s", fileContent) != EOF) {
+  //
+  // }
+
+  for(int i = 0; i < qtd_lines; i++ ){
+    table[i] = (char**) malloc(50 * sizeof(char*));
+    for (int j = 0; j < qtd_columns; j++) {
+      fscanf(arq, "%s", fileContent);
+      table[i][j] = (char*) malloc(50 * sizeof(char));
+      table[i][j] = fileContent;
+      printf("%s\n", table[i][j]);
+    }
+  }
+
+  fclose(arq);
+  return table;
+}
+
 
 int checkPrimarykey(){
-  if(exist){
-    return 0;
-  }else{
-    return 1;
-  }
+  // if(exist){
+  //   return 0;
+  // }else{
+  //   return 1;
+  // }
 }
