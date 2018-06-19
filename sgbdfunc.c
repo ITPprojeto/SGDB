@@ -65,6 +65,39 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
   fclose(allTables);
 }
 
+void writeFileint(char *tableName, char *itemTable)
+{ 
+  FILE *arq;
+
+  arq = fopen(tableName, "a+");
+
+  fprintf(arq, "%d ;", atoi(itemTable));
+
+  fclose(arq);
+}
+
+void writeFiledouble(char *tableName, char *itemTable)
+{ 
+  FILE *arq;
+
+  arq = fopen(tableName, "a+");
+
+  fprintf(arq, "%0.2f ;", atof(itemTable));
+
+  fclose(arq);
+}
+
+void writeFilefloat(char *tableName, char *itemTable)
+{ 
+  FILE *arq;
+
+  arq = fopen(tableName, "a+");
+
+  fprintf(arq, "%f ;", atof(itemTable));
+
+  fclose(arq);
+}
+
 char *** insertItens()
 {
   int qtd_lines, qtd_colums, n, dataType[n];
@@ -112,21 +145,20 @@ char *** insertItens()
       
       if (dataType[j] == 1)
       {
-      arq = fopen(tableName, "a+");
-      fprintf(arq, "%d ;", atoi(table[i][j]));
-      //Essa parque é a que deveria ta em writefile mas não sei parametro direito ai tenho medo de cagar
-      fclose(arq);
+      writeFileint(tableName, table[i][j]);
       }
 
-      /*
       if (dataType[j] == 2)
       {
-      table[i][j] = atof(table[i][j]);
-      fprintf(arq, "%f ;", table[i][j]);
+      writeFiledouble(tableName, table[i][j]);
       }
-      */
 
-      if(dataType[j] == 5)
+      if (dataType[j] == 3)
+      {
+      writeFilefloat(tableName, table[i][j]);
+      }
+
+      if(dataType[j] == 4)
       {
       writeFile(tableName, qtd_lines, table[i][j]);
       }
