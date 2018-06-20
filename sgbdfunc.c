@@ -58,10 +58,11 @@ void menu(){
 void writeFile(char *tableName, char *itemTable, char *operation)
 {
   char path[255];
-  FILE *arq, *allTables;
 
   strcpy(path, "tables/");
   strcat(path, tableName);
+
+  FILE *arq, *allTables;
 
   arq = fopen(path, operation);
 
@@ -75,60 +76,60 @@ void writeFile(char *tableName, char *itemTable, char *operation)
   fclose(arq);
   fclose(allTables);
 }
-void  insertItens()
+
+
+void insertItens()
 {
-  int qtd_lines, qtd_colums;
-  char ***table, tableName[100], qtdLinesStr[100], qtdColumnsStr[100];
+  int qtd_lines, qtd_colums, n, dataType[n];
+  char ***table, tableName[100], path[255];
+  FILE *arq;
 
   table = (char***) malloc(50 * sizeof(char **));
 
   printf("Digite o nome da tabela:\n");
   scanf("%s", tableName);
 
-  //if create pra evitar duas funções de inserir boolean e identificar exitencia da tabela
-  printf("Digite a quantidade de colunas e a quantidade de itens:\n");
-  scanf("%s %s", qtdColumnsStr, qtdLinesStr);
+  strcpy(path, "tables/");
+  strcat(path, tableName);
 
-  writeFile(tableName, qtdLinesStr, "a+");
-  writeFile(tableName, qtdColumnsStr, "a+");
-  writeFile(tableName, "\r\n", "a+");
+  arq = fopen(path, "w");
 
-  qtd_lines = atoi(qtdLinesStr);
-  qtd_colums = atoi(qtdColumnsStr);
+  printf("Digite a quantidade de colunas:\n");
+  scanf("%d", &qtd_colums);
+  fprintf(arq, "%d ", qtd_colums);
+  n = qtd_colums;
 
-  for (int i = 0; i < qtd_lines; i++)
+  printf("Digite a quantidade de entradas de dados:\n");
+  scanf("%d", &qtd_lines);
+  fprintf(arq, "%d\n", qtd_lines);
+  fclose(arq);
+
+  for (int i = 0; i < qtd_lines + 2; i++)
   {
     table[i] = (char**) malloc(50 * sizeof(char*));
-    for (int j = 0; j < qtd_colums; j++)
+    for (int j = 1; j < qtd_colums + 1; j++)
     {
       table[i][j] = (char*) malloc(50 * sizeof(char));
-        //fprintf(arq, "%d %d\n", qtd_colums, qtd_lines);
-        //writeFile(tableName, qtd_lines, table[i][j]);
-        if (i == 0) {
-          printf("Digite o nome da coluna:\n");
-        }else{
-          printf("Digite um item da tabela:\n");
-        }
-
-        // if (j == 0) {
-        //   table[i][j] = i;
-        // }else{
-        //   scanf("%s", table[i][j]);
-        // }
-
-      //USAR FGETS NOMES COMPOSTOS (PROBLEMA /N)
-      //fgets(table[i][j], 100, stdin);
-
-      if (j == qtd_colums - 1)
+      if (i == 0)
       {
-        strcat(table[i][j], "\r\n");
+        printf("1 - Int / 2 - Double / 3 - Float / 4 - String\n");
+        printf("Digite o tipo de variavel da coluna [%d] ", j);
       }
-
+      else if (i == 1)
+      {
+        printf("Digite o nome da coluna: [%d] ", j);
+      }
+      else
+      {
+      printf("Digite o item da tabela da coluna [%s]", table[1][j]);
+      }
+      scanf("%s", table[i][j]); //Esse seria o array das variaveis
       writeFile(tableName, table[i][j], "a+");
     }
   }
   menu();
 }
+
 char *** insertItensAfterFile()
 {
 
@@ -253,14 +254,18 @@ void search()
 }
 void showTables()
 {
-  char tableName[100], string[100];
+
+  char tableName[100], string[100], path[255];
   int maxSizeint, pular, cont = 0, space  , q;
   FILE *arq;
 
   printf("Digite o nome da tabela que deseja ver: ");
   scanf(" %s", tableName);
 
-  arq = fopen(tableName, "r");
+  strcpy(path, "tables/");
+  strcat(path, tableName);
+
+  arq = fopen(path, "r");
 
   maxSizeint = 0;
 
@@ -274,7 +279,7 @@ void showTables()
 
   fclose(arq);
 
-  fopen(tableName, "r");
+  fopen(path, "r");
 
   fscanf(arq, "%d", &pular);
 
@@ -322,7 +327,7 @@ void showTables()
   menu();
 }
 void deleteItemTable(){
-  char tableName[100], pk[100], ***table;
+  char tableName[100], pk[100], ***table, path[255];
   int *metaData, lines, columns, index;
   FILE *arq;
 
@@ -334,7 +339,7 @@ void deleteItemTable(){
   lines = metaData[1];
   columns = metaData[0];
 
-  table = fileToMatrix("tables/paises");
+  table = fileToMatrix(path);
 
   //isola a coluna das chaves primarias e confere
   for (int i = 1; i < lines; i++) {
@@ -344,7 +349,7 @@ void deleteItemTable(){
     }
   }
 
-  arq = fopen("tables/paises", "w");
+  arq = fopen(path, "w");
   fprintf(arq, "%d %d\n", lines-1, columns);
   //subsititui valores anteriores da matriz pelo proximo
 
@@ -367,10 +372,10 @@ char ***fileToMatrix(char *tableName){
   char content[100], ***table, fileContent[256], path[256];
   FILE *arq;
 
-  // strcpy(path, "tables/");
-  // strcat(path, tableName);
+  strcpy(path, "tables/");
+  strcat(path, tableName);
 
-  arq = fopen(tableName, "r");
+  arq = fopen(path, "r");
   fscanf(arq, "%d %d",  &qtd_lines, &qtd_columns);
 
   table = (char***) malloc(50 * sizeof(char **));
@@ -388,6 +393,7 @@ char ***fileToMatrix(char *tableName){
 
   return table;
 }
+
 int *tableMetadata(char *tableName){
   char path[255];
   strcpy(path, "tables/");
