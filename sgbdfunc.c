@@ -161,6 +161,9 @@ char *** insertItensAfterFile()
   printf("Digite a quantidade de itens:\n");
   scanf("%d", &qtd_lines);
 
+  fseek(arq, 1, SEEK_SET);
+  fprintf(arq, "%d\n", qtd_lines);
+
   table = (char***) malloc(50 * sizeof(char **));
 
   for (int i = 0; i < qtd_lines; i++)
@@ -217,7 +220,7 @@ void deleteTable(){
   }else{
     printf("Erro ao deletar a tabela.\n");
   }
-  printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
+  menu();
 }
 
 
