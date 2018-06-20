@@ -55,7 +55,6 @@ void menu(){
 
     printf("Encerrando programa!\n");
 }
-
 void writeFile(char *tableName, char *itemTable, char *operation)
 {
   char path[255];
@@ -76,7 +75,6 @@ void writeFile(char *tableName, char *itemTable, char *operation)
   fclose(arq);
   fclose(allTables);
 }
-
 void  insertItens()
 {
   int qtd_lines, qtd_colums;
@@ -112,11 +110,11 @@ void  insertItens()
           printf("Digite um item da tabela:\n");
         }
 
-        if (j == 0) {
-          table[i][j] = i;
-        }else{
-          scanf("%s", table[i][j]);
-        }
+        // if (j == 0) {
+        //   table[i][j] = i;
+        // }else{
+        //   scanf("%s", table[i][j]);
+        // }
 
       //USAR FGETS NOMES COMPOSTOS (PROBLEMA /N)
       //fgets(table[i][j], 100, stdin);
@@ -131,7 +129,6 @@ void  insertItens()
   }
   menu();
 }
-
 char *** insertItensAfterFile()
 {
 
@@ -173,8 +170,6 @@ char *** insertItensAfterFile()
 
   menu();
 }
-
-
 void deleteTable(){
   int status;
   char tableName[100];
@@ -191,8 +186,6 @@ void deleteTable(){
   }
   menu();
 }
-
-
 void search()
 {
   int qtd_lines, qtd_columns, searchColum, searchitem, inteiro, dataType[qtd_columns];
@@ -258,7 +251,6 @@ void search()
  fclose(arq);
  free(table);
 }
-
 void showTables()
 {
   char tableName[100], string[100];
@@ -329,7 +321,6 @@ void showTables()
   fclose(arq);
   menu();
 }
-
 void deleteItemTable(){
   char tableName[100], pk[100], ***table;
   int *metaData, lines, columns, index;
@@ -342,8 +333,6 @@ void deleteItemTable(){
   metaData = tableMetadata(tableName);
   lines = metaData[1];
   columns = metaData[0];
-
-  p
 
   table = fileToMatrix("tables/paises");
 
@@ -372,7 +361,6 @@ void deleteItemTable(){
   fclose(arq);
   menu();
 }
-
 char ***fileToMatrix(char *tableName){
 
   int qtd_lines, qtd_columns;
@@ -400,7 +388,6 @@ char ***fileToMatrix(char *tableName){
 
   return table;
 }
-
 int *tableMetadata(char *tableName){
   char path[255];
   strcpy(path, "tables/");
