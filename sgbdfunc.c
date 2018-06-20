@@ -4,7 +4,8 @@
 #include "sgdb.h"
 
 
-void menu(){
+void menu()
+{
 
     int option;
     printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
@@ -50,6 +51,7 @@ void menu(){
     }
 }
 
+
 void writeFile(char *tableName, int qdt_colun, char *itemTable)
 { 
   FILE *arq;
@@ -66,7 +68,7 @@ char *** insertItens()
   int qtd_lines, qtd_colums, n, dataType[n];
   char ***table, tableName[100];
   FILE *arq;
-  
+
   table = (char***) malloc(50 * sizeof(char **));
 
   printf("Digite o nome da tabela:\n");
@@ -93,15 +95,15 @@ char *** insertItens()
       if (i == 0)
       {
         printf("1 - Int / 2 - Double / 3 - Float / 4 - String\n");
-        printf("Digite o tipo de variavel da coluna [%d] ", j);
+        printf("Digite o tipo de variavel da coluna [%d] :", j);
       }
       else if (i == 1)
       {
-        printf("Digite o nome da coluna: [%d] ", j);
+        printf("Digite o nome da coluna %d : ", j);
       }
       else
       {
-      printf("Digite o item da tabela da coluna [%s]", table[1][j]);
+      printf("Digite o item da tabela da coluna [%s]: ", table[1][j]);
       }
       scanf("%s", table[i][j]); //Esse seria o array das variaveis
       writeFile(tableName, qtd_lines, table[i][j]);

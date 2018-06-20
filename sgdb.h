@@ -5,5 +5,6 @@ char *** insertItensAfterFile();
 void showTables();
 void deleteTable();
 void search();
-void mostrartabela();
+void showTable();
+void checkALLTables(char *tableName);
 char ***fileToMatrix();
