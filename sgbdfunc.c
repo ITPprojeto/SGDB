@@ -192,10 +192,10 @@ void deleteTable(){
 
 void search()
 {
-  int qtd_lines, qtd_columns, searchColum, searchitem, inteiro, dataType[qtd_columns];
+  int qtd_lines, qtd_columns, searchColum, inteiro, dataType[qtd_columns], option;
   float flutuante;
   double duplo;
-  char content[100], ***table, fileContent[256], tableName[100];
+  char content[100], ***table, fileContent[256], tableName[100], searchitem[100];
   FILE *arq;
   
   printf("Digite o nome do arquivo que deseja pesquisar: ");
@@ -209,10 +209,9 @@ void search()
 
   fscanf(arq, "%d %d", &qtd_columns, &qtd_lines);
 
-  for(int j = 1; j < qtd_columns + 1; j++)
+  for(int j = 0; j < qtd_columns ; j++)
   {
     fscanf(arq, "%d", &dataType[j]);
-    printf("indice de data : %d\n", dataType[j]);
   }
 
   table = (char***) malloc(50 * sizeof(char **));
@@ -233,27 +232,221 @@ void search()
   {
     for (int j = 0; j < qtd_columns; j++) 
     {
-      printf("%d %s\n", j+1, table[i][j]);
+      printf("%d %s\n", j, table[i][j]);
     }
   }
 
   printf("Digite a coluna que deseja pesquisar: ");
   scanf("%d", &searchColum);
 
+  
+  printf("Digite como deseja fazer sua busca :\n");
+  printf("1 - valor maior que o desejado: \n");
+  printf("2 - valor maior ou igual ao valor desejado: \n");
+  printf("3 - valor igual ao informado: \n");
+  printf("4 - valor menor que o informado: \n");
+  printf("5 - valor menor ou igual que o informado: \n");
+  scanf("%d", &option);
+ 
   printf("Digite o dado que deseja pesquisar:\n");
-  scanf("%d", &searchitem);
+  scanf(" %[^\n]%*c", searchitem);
 
-  for(int i = 1; i < qtd_lines  ; i++ ){
-    for (int j = searchColum; j < searchColum + 1; j++) 
+ if (option == 1)
+ {
+    if (dataType[searchColum] == 1)
+    { 
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atoi(table[i][j]) > atoi(searchitem))
+          printf("É maior que o dado pesquisado: %d\n", atoi(table[i][j]));
+        }
+      }
+    }
+    
+    if (dataType[searchColum] == 2)
     {
-      if (atoi(table[i][j]) == searchitem)
-      {
-      printf("%d\n",atoi(table[i][j]));
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atof(table[i][j]) > atof(searchitem))
+          printf("É maior que o dado pesquisado: %0.2f\n", atof(table[i][j]));
+        }
+      }
+    }
+      
+    if(dataType[searchColum] == 3)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if (atof(searchitem) > atof(table[i][j]))
+          printf("É maior que o dado pesquisado: %f\n", atof(table[i][j]));
+        }
       }
     }
   }
- fclose(arq);
- free(table);
+
+ if (option == 2)
+ {
+    if (dataType[searchColum] == 1)
+    { 
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atoi(table[i][j]) >= atoi(searchitem))
+          printf("É maior ou igual ao dado pesquisado: %d\n", atoi(table[i][j]));
+        }
+      }
+    }
+    
+    if (dataType[searchColum] == 2)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atof(table[i][j]) >= atof(searchitem))
+          printf("É maior ou igual ao dado pesquisado: %0.2f\n", atof(table[i][j]));
+        }
+      }
+    }
+      
+    if(dataType[searchColum] == 3)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if (atof(searchitem) >= atof(table[i][j]))
+          printf("É maior ou igual ao dado pesquisado: %f\n", atof(table[i][j]));
+        }
+      }
+    }
+  }
+
+ if (option == 3)
+ {
+    if (dataType[searchColum] == 1)
+    { 
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atoi(table[i][j]) == atoi(searchitem))
+          printf("É igual ao dado pesquisado: %d\n", atoi(table[i][j]));
+        }
+      }
+    }
+    
+    if (dataType[searchColum] == 2)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atof(table[i][j]) == atof(searchitem))
+          printf("É igual ao dado pesquisado: %0.2f\n", atof(table[i][j]));
+        }
+      }
+    }
+      
+    if(dataType[searchColum] == 3)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if (atof(searchitem) == atof(table[i][j]))
+          printf("É igual ao dado pesquisado: %f\n", atof(table[i][j]));
+        }
+      }
+    }
+  }
+
+ if (option == 4)
+ {
+    if (dataType[searchColum] == 1)
+    { 
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atoi(table[i][j]) < atoi(searchitem))
+          printf("É menor que o  dado pesquisado: %d\n", atoi(table[i][j]));
+        }
+      }
+    }
+    
+    if (dataType[searchColum] == 2)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atof(table[i][j]) < atof(searchitem))
+          printf("É menor que dado pesquisado: %0.2f\n", atof(table[i][j]));
+        }
+      }
+    }
+      
+    if(dataType[searchColum] == 3)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if (atof(searchitem) < atof(table[i][j]))
+          printf("É menor que o dado pesquisado: %f\n", atof(table[i][j]));
+        }
+      }
+    }
+  } 
+
+  if (option == 5)
+ {
+    if (dataType[searchColum] == 1)
+    { 
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atoi(table[i][j]) <= atoi(searchitem))
+          printf("É menor ou igual ao dado pesquisado: %d\n", atoi(table[i][j]));
+        }
+      }
+    }
+    
+    if (dataType[searchColum] == 2)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if(atof(table[i][j]) <= atof(searchitem))
+          printf("É menor ou igual ao dado pesquisado: %0.2f\n", atof(table[i][j]));
+        }
+      }
+    }
+      
+    if(dataType[searchColum] == 3)
+    {
+      for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if (atof(searchitem) <= atof(table[i][j]))
+          printf("É menor ou igual ao dado pesquisado: %f\n", atof(table[i][j]));
+        }
+      }
+    }
+  }
+  fclose(arq);
+  free(table);
 }
 
 void mostrartabela()
