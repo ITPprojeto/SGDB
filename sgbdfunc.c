@@ -8,7 +8,7 @@ void menu(){
     int option;
     printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
 
-    while (option != 6) {
+    while (option != 7) {
       scanf("%d", &option);
 
       switch (option)
@@ -19,7 +19,7 @@ void menu(){
         break;
 
         case 2 :
-          printf("teste\n");
+          insertItensAfterFile();
           printf ("\n");
         break;
 
@@ -35,7 +35,6 @@ void menu(){
 
         case 5 :
           deleteTable();
-
           printf ("\n");
         break;
 
@@ -44,12 +43,12 @@ void menu(){
           printf ("\n");
         break;
 
-
-
         default:
           printf ("Valor inválido!\n");
       }
     }
+
+    printf("Encerrando programa!\n");
 }
 
 void writeFile(char *tableName, char *itemTable, char *operation)
@@ -63,6 +62,7 @@ void writeFile(char *tableName, char *itemTable, char *operation)
   arq = fopen(path, operation);
 
   allTables = fopen("allTables.txt", "a+");
+  //if strcmp fscanf tableName retornar resultado não quantida
 
   fprintf(arq, " %s ", itemTable);
 
@@ -92,8 +92,7 @@ void  insertItens()
 
   qtd_lines = atoi(qtdLinesStr);
   qtd_colums = atoi(qtdColumnsStr);
-  printf("linhas: %d\n", qtd_lines);
-  printf("colunas: %d\n", qtd_colums);
+
   for (int i = 0; i < qtd_lines; i++)
   {
     table[i] = (char**) malloc(50 * sizeof(char*));
@@ -138,6 +137,54 @@ void showTables()
   }
 
   fclose(allTables);
+}
+
+
+char *** insertItensAfterFile()
+{
+
+  char tableName[100], ***table, path[255];;
+  int qtd_lines, qtd_colums, count = 0, pk;
+  FILE *arq;
+
+  printf("Digite o nome da tabela:\n");
+  scanf("%s", tableName);
+
+  strcpy(path, "tables/");
+  strcat(path, tableName);
+
+  arq = fopen(path, "r");
+
+  fscanf(arq, "%d", &qtd_colums);
+  fclose(arq);
+
+  printf("Digite a quantidade de itens:\n");
+  scanf("%d", &qtd_lines);
+
+  table = (char***) malloc(50 * sizeof(char **));
+
+  for (int i = 0; i < qtd_lines; i++)
+  {
+    table[i] = (char**) malloc(50 * sizeof(char*));
+    for (int j = 0; j < qtd_colums; j++)
+    {
+      table[i][j] = (char*) malloc(50 * sizeof(char));
+      printf("Digite a informação da coluna [%s]: ", table[0][j]);
+      scanf(" %[^\n]%*c", table[i][j]);
+
+      if (i == 0) {
+        pk = atoi(table[i][j]);
+        if (checkPrimarykey(pk, tableName) == 1) {
+          printf("Pk inválida!\n");
+        }
+      }
+
+      writeFile(tableName, table[i][j], "a+");
+      count++;
+    }
+  }
+
+  menu();
 }
 
 int transformTypeData(int qtd_lines, int qtd_colums, char ***table)
@@ -212,8 +259,7 @@ void deleteItemTable(){
   metaData = tableMetadata(tableName);
   lines = metaData[1];
   columns = metaData[0];
-  printf("lines: %d\n", lines);
-  printf("cols: %d\n", columns);
+
   printf("Digite a PK do item que deseja excluir\n");
   scanf("%s", pk);
 
@@ -294,10 +340,21 @@ int *tableMetadata(char *tableName){
 }
 
 
-int checkPrimarykey(){
-  // if(exist){
-  //   return 0;
-  // }else{
-  //   return 1;
-  // }
+int checkPrimarykey(int pk, char *tableName){
+  char ***table;
+  int *metaData, lines, columns, index;
+
+  metaData = tableMetadata(tableName);
+  lines = metaData[1];
+
+  table = fileToMatrix("tables/paises");
+
+  for (int i = 0; i < lines; i++) {
+    if(pk == atoi(table[i][0]))
+    {
+      return 0;
+    }else{
+      return 1;
+    }
+  }
 }
