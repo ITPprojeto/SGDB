@@ -30,7 +30,7 @@ void menu()
         break;
 
         case 3 :
-          //showTables();
+          showAllTables();
           printf ("\n");
         break;
 
@@ -62,6 +62,23 @@ void menu()
     printf("Encerrando programa!\n");
 }
 
+void showAllTables()
+{
+  FILE *arq;
+  char table[200];
+
+  arq = fopen("allTables.txt", "r");
+
+  printf("\n");
+
+  printf("Tabelas:\n");
+
+  while (fscanf(arq, " %s", table) != EOF) 
+  {
+  printf("%s\n", table);
+  }
+}
+
 void writeFile(char *tableName, char *itemTable, char *operation)
 {
   
@@ -70,15 +87,9 @@ void writeFile(char *tableName, char *itemTable, char *operation)
 
   arq = fopen(tableName, operation);
 
-  allTables = fopen("allTables.txt", "a+");
-  //if strcmp fscanf tableName retornar resultado não quantida
-
   fprintf(arq, " %s ", itemTable);
 
-  fprintf(allTables, "%s\n", tableName);
-
   fclose(arq);
-  fclose(allTables);
 }
 
 
@@ -86,12 +97,17 @@ void insertItens()
 {
   int qtd_lines, qtd_colums, n, dataType[n];
   char ***table, tableName[100];
-  FILE *arq;
+  FILE *arq, *allTables;
 
   table = (char***) malloc(50 * sizeof(char **));
 
   printf("Digite o nome da tabela:\n");
   scanf("%s", tableName);
+  
+
+  allTables = fopen("allTables.txt", "a+");
+  fprintf(allTables, "%s\n", tableName);
+  fclose(allTables);
 
   arq = fopen(tableName, "w");
 
@@ -141,8 +157,11 @@ char *** insertItensAfterFile()
   printf("Digite o nome da tabela:\n");
   scanf("%s", tableName);
 
-  
-  
+  if(arq == NULL)
+  {
+    printf("Esse arquivo não existe\n");
+    menu();
+  }
 
   arq = fopen(tableName, "r");
   char linha[100];
@@ -207,8 +226,13 @@ void search()
   
   printf("Digite o nome do arquivo que deseja pesquisar: ");
   scanf(" %[^\n]%*c", tableName);
-  
 
+  if(arq == NULL)
+  {
+    printf("Esse arquivo não existe\n");
+    menu();
+  }
+  
   arq = fopen(tableName, "r");
 
   if(arq == NULL){
@@ -254,6 +278,7 @@ void search()
   printf("3 - valor igual ao informado: \n");
   printf("4 - valor menor que o informado: \n");
   printf("5 - valor menor ou igual que o informado: \n");
+  printf("6 - pesquisar palavras: \n");
   scanf("%d", &option);
  
   printf("Digite o dado que deseja pesquisar:\n");
@@ -453,6 +478,19 @@ void search()
       }
     }
   }
+
+  if (option == 6)
+  {
+    for(int i = 1; i < qtd_lines ; i++ )
+      { 
+        for (int j = searchColum; j < searchColum + 1; j++) 
+        {
+          if (strcmp(table[i][j], searchitem) == 0)
+          printf("Foi Encontrado: %s\n", table[i][j]);
+        }
+      }
+  }
+
   fclose(arq);
   free(table);
   menu();
@@ -467,6 +505,12 @@ void showTables()
 
   printf("Digite o nome da tabela que deseja ver: ");
   scanf(" %s", tableName);
+
+  if(arq == NULL)
+  {
+    printf("Esse arquivo não existe\n");
+    menu();
+  }
 
   arq = fopen(tableName, "r");
 
@@ -588,9 +632,6 @@ void deleteItemTable()
       writeFile(tableName, table[i][j], "w");
     }
   }
-
-
-
 }
 
 char ***fileToMatrix(char *tableName)
@@ -600,10 +641,14 @@ char ***fileToMatrix(char *tableName)
   char content[100], ***table, fileContent[256];
   FILE *arq;
 
-  
-  
-
   arq = fopen(tableName, "r");
+
+  if(arq == NULL)
+  {
+    printf("Esse arquivo não existe\n");
+    menu();
+  }
+
   fscanf(arq, "%d %d",  &qtd_lines, &qtd_columns);
 
   table = (char***) malloc(50 * sizeof(char **));
@@ -629,6 +674,13 @@ int *tableMetadata(char *tableName)
   int *qtdLineCol, qtd_columns, qtd_lines;
 
   arq = fopen(tableName, "r");
+
+  if(arq == NULL)
+  {
+    printf("Esse arquivo não existe\n");
+    menu();
+  }
+
   qtdLineCol = malloc(1 * sizeof(int));
   fscanf(arq, "%d %d", &qtd_columns, &qtd_lines);
 
