@@ -61,17 +61,6 @@ void writeFile(char *tableName, int qdt_colun, char *itemTable)
   fclose(arq);
 }
 
-void writeFilefloat(char *tableName, char *itemTable)
-{ 
-  FILE *arq;
-
-  arq = fopen(tableName, "a+");
-
-  fprintf(arq, "%f ", atof(itemTable));
-
-  fclose(arq);
-}
-
 char *** insertItens()
 {
   int qtd_lines, qtd_colums, n, dataType[n];
@@ -449,7 +438,7 @@ void search()
   free(table);
 }
 
-void mostrartabela()
+void showTable()
 {
   char tableName[100], string[100];
   int maxSizeint, pular, cont = 0, space  , q;
