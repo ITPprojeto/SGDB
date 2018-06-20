@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 teste1
 teste1
 teste1
@@ -3230,3 +3231,20 @@ paises
 paises
 paises
 paises
+=======
+
+copa
+copa
+copa
+copa
+copa
+>>>>>>> 47154ea8d90ff573bf3e47e128762a754fdb6c5a
+ruas
+ruas
+ruas
+ruas
+ruas
+ruas
+ruas
+ruas
+ruas
