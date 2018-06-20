@@ -3,13 +3,9 @@
 #include <string.h>
 #include "sgdb.h"
 
-<<<<<<< HEAD
 
 void menu()
 {
-=======
-void menu(){
->>>>>>> b55ea39631251cb07b749eac06737f81803bb18f
 
     int option;
     printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
@@ -63,21 +59,16 @@ void menu(){
 }
 void writeFile(char *tableName, char *itemTable, char *operation)
 {
+  
   char path[255];
+  FILE *arq, *allTables;
 
-<<<<<<< HEAD
 
-void writeFile(char *tableName, int qdt_colun, char *itemTable)
-{ 
-  FILE *arq;
-=======
   strcpy(path, "tables/");
   strcat(path, tableName);
 
-  FILE *arq, *allTables;
 
   arq = fopen(path, operation);
->>>>>>> b55ea39631251cb07b749eac06737f81803bb18f
 
   allTables = fopen("allTables.txt", "a+");
   //if strcmp fscanf tableName retornar resultado não quantida
@@ -200,6 +191,7 @@ void deleteTable(){
   }
   menu();
 }
+
 void search()
 {
   int qtd_lines, qtd_columns, searchColum, searchitem, inteiro, dataType[qtd_columns];
