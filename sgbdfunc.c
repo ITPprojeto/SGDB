@@ -30,8 +30,8 @@ void menu(){
         break;
 
         case 4 :
-          search();
-          //mostrartabela();
+          //search();
+          mostrartabela();
           printf ("\n");
         break;
 
@@ -236,7 +236,7 @@ void deleteTable(){
 
 void search()
 {
-  int qtd_lines, qtd_columns, searchitem, searchColum;
+  int qtd_lines, qtd_columns, searchColum, searchitem;
   char content[100], ***table, fileContent[256];
   FILE *arq;
 
@@ -252,26 +252,25 @@ void search()
     {
       fscanf(arq, "%s", fileContent);
       table[i][j] = (char*) malloc(50 * sizeof(char));
-      table[i][j] = fileContent;
+      strcpy(table[i][j], fileContent);
     }
   }
 
-  for(int i = 0; i < qtd_lines; i++ )
+  for(int i = 0; i < 1; i++ )
   {
-    for (int j = 0; j < 1; j++) 
+    for (int j = 0; j < qtd_columns-1; j++) 
     {
-      printf("%d %s\n", i, table[i][j]);
+      printf("%d %s\n", j+1, table[i][j]);
     }
   }
 
   printf("Digite a coluna que deseja pesquisar: ");
-  scanf("%d", &searchColum);
+  scanf("%d", &searchColum+1);
 
   printf("Digite o dado que deseja pesquisar:\n");
   scanf("%d", &searchitem);
 
-  for(int i = 0; i < qtd_lines; i++ ){
-    table[i] = (char**) malloc(50 * sizeof(char*));
+  for(int i = 1; i < qtd_lines  ; i++ ){
     for (int j = searchColum; j < searchColum + 1; j++) 
     {
       if (atoi(table[i][j]) == searchitem)
@@ -286,7 +285,7 @@ void search()
 void mostrartabela()
 {
   char tableName[100], string[100];
-  int maxSizeint, pular, cont = 0, space, q;
+  int maxSizeint, pular, cont = 0, space  , q;
   FILE *arq;
 
   printf("Digite o nome da tabela que deseja ver: ");
