@@ -84,7 +84,7 @@ void  insertItens()
 
   //if create pra evitar duas funções de inserir boolean e identificar exitencia da tabela
   printf("Digite a quantidade de colunas e a quantidade de itens:\n");
-  scanf("%s %s", qtdLinesStr, qtdColumnsStr);
+  scanf("%s %s", qtdColumnsStr, qtdLinesStr);
 
   writeFile(tableName, qtdLinesStr, "a+");
   writeFile(tableName, qtdColumnsStr, "a+");
@@ -92,7 +92,8 @@ void  insertItens()
 
   qtd_lines = atoi(qtdLinesStr);
   qtd_colums = atoi(qtdColumnsStr);
-
+  printf("linhas: %d\n", qtd_lines);
+  printf("colunas: %d\n", qtd_colums);
   for (int i = 0; i < qtd_lines; i++)
   {
     table[i] = (char**) malloc(50 * sizeof(char*));
@@ -209,13 +210,14 @@ void deleteItemTable(){
 
 
   metaData = tableMetadata(tableName);
-  lines = metaData[0];
-  columns = metaData[1];
-
+  lines = metaData[1];
+  columns = metaData[0];
+  printf("lines: %d\n", lines);
+  printf("cols: %d\n", columns);
   printf("Digite a PK do item que deseja excluir\n");
   scanf("%s", pk);
 
-  table = fileToMatrix("tables/alunos");
+  table = fileToMatrix("tables/paises");
 
   //isola a coluna das chaves primarias e confere
   for (int i = 1; i < lines; i++) {
@@ -225,20 +227,22 @@ void deleteItemTable(){
     }
   }
 
-  arq =   fopen("tables/professores", "w");
-
+  arq = fopen("tables/paises", "w");
+  fprintf(arq, "%d %d\n", lines-1, columns);
   //subsititui valores anteriores da matriz pelo proximo
-  for (int i = 0; i < lines-1; i++) {
+
+  for (int i = 0; i < lines - 1; i++) {
     for (int j = 0; j < columns; j++) {
-      if (i == index) {
-        fprintf(arq, "%s\n", table[i+1][j]);
+      if (i >= index) {
+        fprintf(arq, "%s ", table[i+1][j]);
       }else{
-        fprintf(arq, "%s\n", table[i][j]);
+        fprintf(arq, "%s ", table[i][j]);
       }
     }
-    fprintf(arq, "%s\n", "\r\n");
+    fprintf(arq, "%s\n", "");
   }
   fclose(arq);
+  menu();
 }
 
 char ***fileToMatrix(char *tableName){
@@ -251,7 +255,7 @@ char ***fileToMatrix(char *tableName){
   // strcat(path, tableName);
 
   arq = fopen(tableName, "r");
-  fscanf(arq, "%d %d", &qtd_columns, &qtd_lines);
+  fscanf(arq, "%d %d",  &qtd_lines, &qtd_columns);
 
   table = (char***) malloc(50 * sizeof(char **));
 
