@@ -1,9 +1,10 @@
 void menu();
 void insertItens();
-void writeFile(char *tableName, char *itemTable);
+void writeFile(char *tableName, char *itemTable, char *operation);
 int transformTypeData(int new_line, int qdt_colun, char ***table);
 void showTables();
 void deleteTable();
-void deleteItemTable(char tableName);
+void deleteItemTable();
 void search();
 char ***fileToMatrix(char *tableName);
+int *tableMetadata(char *tableName);

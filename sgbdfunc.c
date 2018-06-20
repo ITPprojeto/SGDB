@@ -3,7 +3,6 @@
 #include <string.h>
 #include "sgdb.h"
 
-
 void menu(){
 
     int option;
@@ -41,8 +40,11 @@ void menu(){
         break;
 
         case 6:
-          fileToMatrix("alunos");
+          deleteItemTable();
+          printf ("\n");
         break;
+
+
 
         default:
           printf ("Valor inválido!\n");
@@ -50,7 +52,7 @@ void menu(){
     }
 }
 
-void writeFile(char *tableName, char *itemTable)
+void writeFile(char *tableName, char *itemTable, char *operation)
 {
   char path[255];
   FILE *arq, *allTables;
@@ -58,7 +60,7 @@ void writeFile(char *tableName, char *itemTable)
   strcpy(path, "tables/");
   strcat(path, tableName);
 
-  arq = fopen(path, "a+");
+  arq = fopen(path, operation);
 
   allTables = fopen("allTables.txt", "a+");
 
@@ -84,9 +86,9 @@ void  insertItens()
   printf("Digite a quantidade de colunas e a quantidade de itens:\n");
   scanf("%s %s", qtdLinesStr, qtdColumnsStr);
 
-  writeFile(tableName, qtdLinesStr);
-  writeFile(tableName, qtdColumnsStr);
-  writeFile(tableName, "\r\n");
+  writeFile(tableName, qtdLinesStr, "a+");
+  writeFile(tableName, qtdColumnsStr, "a+");
+  writeFile(tableName, "\r\n", "a+");
 
   qtd_lines = atoi(qtdLinesStr);
   qtd_colums = atoi(qtdColumnsStr);
@@ -114,7 +116,7 @@ void  insertItens()
         strcat(table[i][j], "\r\n");
       }
 
-      writeFile(tableName, table[i][j]);
+      writeFile(tableName, table[i][j], "a+");
     }
   }
   menu();
@@ -170,9 +172,6 @@ void deleteTable(){
   printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
 }
 
-// void deleteItemTable(char tableName){
-//   writeFile(tableName);
-// }
 
 void search()
 {
@@ -200,49 +199,94 @@ void search()
   printf("selecione uma opção:\n 1.Criar Tabela\n 2.Inserir itens na tabela \n 3.Listar tabela\n4.Deletar item da tabela\n5.Deletar tabela\n" );
 }
 
-void deleteItem(){
-  printf("DIgite o nome da tabela\n");
+void deleteItemTable(){
+  char tableName[100], pk[100], ***table;
+  int *metaData, lines, columns, index;
+  FILE *arq;
+
+  printf("Digite o nome da tabela\n");
+  scanf("%s", tableName);
+
+
+  metaData = tableMetadata(tableName);
+  lines = metaData[0];
+  columns = metaData[1];
+
   printf("Digite a PK do item que deseja excluir\n");
-  for (size_t i = 0; i < numcol; i++) {
-    if(table[i][0] == deleteItem)
+  scanf("%s", pk);
+
+  table = fileToMatrix("tables/alunos");
+
+  //isola a coluna das chaves primarias e confere
+  for (int i = 1; i < lines; i++) {
+    if(strcmp(pk, table[i][0]) == 0)
     {
-      indice = i;
+      index = i;
     }
   }
 
-  for (size_t i = indice; i < qtd_line; i++) {
-    for (size_t j = 0; j < count; j++) {
-      table[i][j] = table[i+1][j+1];
+  arq =   fopen("tables/professores", "w");
+
+  //subsititui valores anteriores da matriz pelo proximo
+  for (int i = 0; i < lines-1; i++) {
+    for (int j = 0; j < columns; j++) {
+      if (i == index) {
+        fprintf(arq, "%s\n", table[i+1][j]);
+      }else{
+        fprintf(arq, "%s\n", table[i][j]);
+      }
     }
+    fprintf(arq, "%s\n", "\r\n");
   }
+  fclose(arq);
 }
 
 char ***fileToMatrix(char *tableName){
+
   int qtd_lines, qtd_columns;
-  char content[100], ***table, fileContent[256];
+  char content[100], ***table, fileContent[256], path[256];
   FILE *arq;
 
-  arq = fopen("tables/alunos", "r");
+  // strcpy(path, "tables/");
+  // strcat(path, tableName);
+
+  arq = fopen(tableName, "r");
   fscanf(arq, "%d %d", &qtd_columns, &qtd_lines);
 
   table = (char***) malloc(50 * sizeof(char **));
-
-  // while (fscanf(arq, "%s", fileContent) != EOF) {
-  //
-  // }
 
   for(int i = 0; i < qtd_lines; i++ ){
     table[i] = (char**) malloc(50 * sizeof(char*));
     for (int j = 0; j < qtd_columns; j++) {
       fscanf(arq, "%s", fileContent);
       table[i][j] = (char*) malloc(50 * sizeof(char));
-      table[i][j] = fileContent;
-      printf("%s\n", table[i][j]);
+      strcpy(table[i][j], fileContent);
     }
   }
 
   fclose(arq);
+
   return table;
+}
+
+int *tableMetadata(char *tableName){
+  char path[255];
+  strcpy(path, "tables/");
+  strcat(path, tableName);
+
+  FILE *arq;
+  int *qtdLineCol, qtd_columns, qtd_lines;
+
+  arq = fopen(path, "r");
+  qtdLineCol = malloc(1 * sizeof(int));
+  fscanf(arq, "%d %d", &qtd_columns, &qtd_lines);
+
+  qtdLineCol[0] = qtd_lines;
+  qtdLineCol[1] = qtd_columns;
+
+  fclose(arq);
+
+  return qtdLineCol;
 }
 
 
