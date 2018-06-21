@@ -2,7 +2,7 @@
 
 Projeto ITP 2018.2 - IMD/UFRN
 
-Projeto da terceira unidade, instruções de uso
+instruções de uso do projeto da terceira unidade.
 
 (É remcomendável executar os arquivos em uma máquina com linux)
 
