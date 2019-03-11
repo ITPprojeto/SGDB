@@ -1,0 +1,12 @@
+void menu();
+void insertItens();
+char *** insertItensAfterFile();
+void writeFile(char *tableName, char *itemTable, char *operation);
+void showTables();
+void deleteTable();
+void deleteItemTable();
+void showAllTables();
+void search();
+void checkALLTables(char *tableName);
+char ***fileToMatrix();
+int *tableMetadata(char *tableName);
