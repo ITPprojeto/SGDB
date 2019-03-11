@@ -10,12 +10,12 @@ set (CMAKE_C_STANDARD 11)
 
 #=== SETTING VARIABLES ===#
 # Compiling flags
-set( GCC_COMPILE_FLAGS "-Wall" )
-#set( PREPROCESSING_FLAGS  "-D DEBUG -D TER_R")
+#set( GCC_COMPILE_FLAGS "-Wall" )
+
+#set( PREPROCESSING_FLAGS  "-D DEBUG")
 #set( CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} ${GCC_COMPILE_FLAGS} ${PREPROCESSING_FLAGS}" )
 
-#Include dir
-include_directories( include )
+
 
 #=== Main App ===
 #Can manually add the sources using the set command as follows:
@@ -25,3 +25,7 @@ set(SOURCES src/main.c)
 file(GLOB SOURCES "src/*.c")
 
 add_executable(sgbd ${SOURCES})
+
+#Folder with all generated tables
+
+file(MAKE_DIRECTORY "build/tables")
